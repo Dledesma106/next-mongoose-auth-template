@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { mutate } from 'swr'
 
-const Form = ({ formId, petForm, forNewPet = true }) => {
+const PetForm = ({ formId, petForm, forNewPet = true }) => {
   const router = useRouter()
   const contentType = 'application/json'
   const [errors, setErrors] = useState({})
@@ -199,4 +199,4 @@ const Form = ({ formId, petForm, forNewPet = true }) => {
   )
 }
 
-export default Form
+export default PetForm

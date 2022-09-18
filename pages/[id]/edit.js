@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
-import Form from '../../components/Form'
+import PetForm from '../../components/PetForm'
 
 const fetcher = (url) =>
   fetch(url)
@@ -27,7 +27,7 @@ const EditPet = () => {
     dislikes: pet.dislikes,
   }
 
-  return <Form formId="edit-pet-form" petForm={petForm} forNewPet={false} />
+  return <PetForm formId="edit-pet-form" petForm={petForm} forNewPet={false} />
 }
 
 export default EditPet

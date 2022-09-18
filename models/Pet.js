@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import User from './User'
 
 /* PetSchema will correspond to a collection in your MongoDB database. */
 const PetSchema = new mongoose.Schema({
@@ -9,13 +10,12 @@ const PetSchema = new mongoose.Schema({
     required: [true, 'Please provide a name for this pet.'],
     maxlength: [60, 'Name cannot be more than 60 characters'],
   },
-  owner_name: {
+  owner:{
     /* The owner of this pet */
-
-    type: String,
-    required: [true, "Please provide the pet owner's name"],
-    maxlength: [60, "Owner's Name cannot be more than 60 characters"],
+    type: mongoose.Schema.Types.ObjectId, ref:'User', required: true
   },
+  
+  
   species: {
     /* The species of your pet */
 
