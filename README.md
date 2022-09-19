@@ -1,7 +1,7 @@
 # MongoDB and Mongoose with Next.js
 
-This example shows how you can use a MongoDB database to support your Next.js application.
-
+This template shows how you can use a MongoDB database to support your Next.js application.
+It's been extended to have simple user registration and login, using cookies and json web tokens
 **Pet** is an application that allows users to add their pets' information (e.g., name, owner's name, diet, age, dislikes, likes, and photo). They can also delete it or edit it anytime.
 
 ## Deploy your own
@@ -10,7 +10,7 @@ Once you have access to [the environment variables you'll need](#step-2-set-up-e
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-mongodb-mongoose&project-name=with-mongodb-mongoose&repository-name=with-mongodb-mongoose&env=MONGODB_URI&envDescription=Required%20to%20connect%20the%20app%20with%20MongoDB&envLink=https://github.com/vercel/next.js/tree/canary/examples/with-mongodb-mongoose%23step-2-set-up-environment-variables)
 
-## How to use
+
 
 Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
 
@@ -49,6 +49,8 @@ cp .env.local.example .env.local
 Then set each variable on `.env.local`:
 
 - `MONGODB_URI` should be the MongoDB connection string you got from step 1.
+- `NODE_ENV` should state whether you're in development or in production
+- `SECRET` should be your key for encrypting jwt for authorization
 
 ### Step 3. Run Next.js in development mode
 
