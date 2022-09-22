@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
-import PetForm from '../../components/PetForm'
+import PetForm from '../../../components/PetForm'
 
 const fetcher = (url) =>
   fetch(url)
@@ -17,7 +17,6 @@ const EditPet = () => {
 
   const petForm = {
     name: pet.name,
-    owner_name: pet.owner_name,
     species: pet.species,
     age: pet.age,
     poddy_trained: pet.poddy_trained,

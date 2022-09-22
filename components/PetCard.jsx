@@ -2,6 +2,14 @@ import Link from "next/link"
 
 export default function PetCard({pet}){
 
+    const parseOwnerId = async(id) =>{
+        const res = await fetch(`api/users/${id}`)
+        const data = res.json()
+        const user = data.data
+        console.log(user)
+        return `${user.firstName} ${user.lastName}`
+    }
+
     return(
         <div key={pet._id}>
         <div className="card">
@@ -30,10 +38,10 @@ export default function PetCard({pet}){
                 </div>
 
                 <div className="btn-container">
-                <Link href="/[id]/edit" as={`/${pet._id}/edit`}>
+                <Link href="/my-pets/[id]/edit" as={`/my-pets/${pet._id}/edit`}>
                     <button className="btn edit">Edit</button>
                 </Link>
-                <Link href="/[id]" as={`/${pet._id}`}>
+                <Link href="/my-pets/[id]" as={`/my-pets/${pet._id}`}>
                     <button className="btn view">View</button>
                 </Link>
                 </div>

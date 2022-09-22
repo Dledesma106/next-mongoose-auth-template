@@ -10,7 +10,6 @@ const PetForm = ({ formId, petForm, forNewPet = true }) => {
 
   const [form, setForm] = useState({
     name: petForm.name,
-    owner_name: petForm.owner_name,
     species: petForm.species,
     age: petForm.age,
     poddy_trained: petForm.poddy_trained,
@@ -87,7 +86,6 @@ const PetForm = ({ formId, petForm, forNewPet = true }) => {
   const formValidate = () => {
     let err = {}
     if (!form.name) err.name = 'Name is required'
-    if (!form.owner_name) err.owner_name = 'Owner is required'
     if (!form.species) err.species = 'Species is required'
     if (!form.image_url) err.image_url = 'Image URL is required'
     return err
@@ -112,16 +110,6 @@ const PetForm = ({ formId, petForm, forNewPet = true }) => {
           maxLength="20"
           name="name"
           value={form.name}
-          onChange={handleChange}
-          required
-        />
-
-        <label htmlFor="owner_name">Owner</label>
-        <input
-          type="text"
-          maxLength="20"
-          name="owner_name"
-          value={form.owner_name}
           onChange={handleChange}
           required
         />

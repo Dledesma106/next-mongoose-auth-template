@@ -11,8 +11,13 @@ const PetSchema = new mongoose.Schema({
     maxlength: [60, 'Name cannot be more than 60 characters'],
   },
   owner:{
-    /* The owner of this pet */
-    type: mongoose.Schema.Types.ObjectId, ref:'User', required: true
+    //The owner of this pet
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'User', required: true
+  },
+
+  owner_name:{
+    type:String
   },
   
   

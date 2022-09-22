@@ -1,15 +1,22 @@
 import dbConnect from '../lib/dbConnect'
+import getUser from '../lib/getUser'
 import Pet from '../models/Pet'
 import PetCard from '../components/PetCard'
+//import User from '../models/User'
+import Header from '../components/Header'
 /* import * as cookies from 'cookies-next'
 import { useState } from 'react'
 import User from '../models/User' */
 
-const Index = ({ pets, user }) => {
+const Index = ({ pets, user}) => {
   
   return(<>
     {/* Create a card for each pet */}
-    {pets.map((pet) => (<PetCard key={pet._id} pet={pet}/>))}
+    <Header user={user}/>
+    <h2>Every Pet on this App!</h2>
+    <div className="grid wrapper">
+      {pets.map((pet) => (<PetCard key={pet._id} pet={pet}/>))}
+    </div>
   </>)
 }
 
@@ -22,12 +29,10 @@ export async function getServerSideProps({req,res}) {
   const pets = allPets.map((doc) => {
     const pet = doc.toObject()
     pet._id = pet._id.toString()
+    pet.owner = pet.owner.toString()
     return pet
   })
-  let user = ''
-  if (req.cookies.username){
-    user = req.cookies.username
-  }
+  const user = await getUser(req)
 
   return { props: { pets: pets,  user: user } }
 }

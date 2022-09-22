@@ -1,8 +1,11 @@
 import LoginForm from '../../components/LoginForm'
-
-const Login = () =>{
+import Header from '../../components/Header'
+const Login = ({user = {}}) =>{
     return(
-        <LoginForm/>
+        <>
+            <Header user= {user}/>
+            <LoginForm/>
+        </>
     )
 }
 

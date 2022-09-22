@@ -1,9 +1,15 @@
+import Header from '../../components/Header'
 import RegisterForm from '../../components/RegisterForm'
 
-const Register = () =>{
+const Register = ({user = {}}) =>{
     return(
-        <RegisterForm/>
+        <>
+            <Header user={user}/>
+            <RegisterForm/>
+        </>
     )
 }
+
+
 
 export default Register
