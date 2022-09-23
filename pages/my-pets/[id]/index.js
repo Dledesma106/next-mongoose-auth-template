@@ -5,6 +5,7 @@ import dbConnect from '../../../lib/dbConnect'
 import Pet from '../../../models/Pet'
 import getUser from '../../../lib/getUser'
 import Header from '../../../components/Header'
+import isUsersPet from '../../../lib/isUsersPet'
 /* Allows you to view pet card info and delete pet card*/
 const PetPage = ({ pet, user }) => {
   const router = useRouter()
@@ -22,6 +23,7 @@ const PetPage = ({ pet, user }) => {
     }
   }
 
+  console.log(`es la mascota del usuario?${isUsersPet(user, pet)}`)
   return (
     <>
     <Header user={user}/>
@@ -52,12 +54,12 @@ const PetPage = ({ pet, user }) => {
             </div>
 
             <div className="btn-container">
-              <Link href="/my-pets/[id]/edit" as={`/my-pets/${pet._id}/edit`}>
+              {isUsersPet(user, pet) && <Link href="/my-pets/[id]/edit" as={`/my-pets/${pet._id}/edit`}>
                 <button className="btn edit">Edit</button>
-              </Link>
-              <button className="btn delete" onClick={handleDelete}>
+              </Link>}
+              {isUsersPet(user, pet) && <button className="btn delete" onClick={handleDelete}>
                 Delete
-              </button>
+              </button>}
             </div>
           </div>
         </div>

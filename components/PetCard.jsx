@@ -1,14 +1,10 @@
 import Link from "next/link"
+//import isAuthorized from "../lib/isUsersPet"
+import isLoggedIn from "../lib/isLoggedIn"
 
-export default function PetCard({pet}){
 
-    const parseOwnerId = async(id) =>{
-        const res = await fetch(`api/users/${id}`)
-        const data = res.json()
-        const user = data.data
-        console.log(user)
-        return `${user.firstName} ${user.lastName}`
-    }
+export default function PetCard({pet, user, isMyPets = false}){
+
 
     return(
         <div key={pet._id}>
@@ -38,9 +34,9 @@ export default function PetCard({pet}){
                 </div>
 
                 <div className="btn-container">
-                <Link href="/my-pets/[id]/edit" as={`/my-pets/${pet._id}/edit`}>
+                {isLoggedIn(user) && isMyPets &&<Link href="/my-pets/[id]/edit" as={`/my-pets/${pet._id}/edit`}>
                     <button className="btn edit">Edit</button>
-                </Link>
+                </Link>}
                 <Link href="/my-pets/[id]" as={`/my-pets/${pet._id}`}>
                     <button className="btn view">View</button>
                 </Link>

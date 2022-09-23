@@ -47,7 +47,6 @@ UserSchema.pre('save', function(next){
 })
 
 UserSchema.methods.comparePassword = function(plaintext) {
-    console.log(`intento comparar contraseñas ${bcryptjs.compareSync(plaintext, this.password)? 'true':'false'}`)
     return bcryptjs.compareSync(plaintext, this.password)
 };
 

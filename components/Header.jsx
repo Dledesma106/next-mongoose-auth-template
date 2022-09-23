@@ -7,12 +7,13 @@ import Image from 'next/image'
 
 const buttonStyle = {
     backgroundColor:'#333',
-    padding: '1em',
+    padding: '0.5em 1em',
     color: '#eee',
-    textAlign:'center',
-    height: '100%',
+    borderRadius:'1em',
     textDecoration:'none',
-    border:'none'
+    border:'none',
+    margin:'0.5em',
+    cursor: 'pointer'
 }
 
 export default function Header({user = {}}){
@@ -32,17 +33,17 @@ export default function Header({user = {}}){
     return(
         <div className="top-bar">
             <div style={{display:'flex'}}>
-            <Link href="/">
-                <a>
-                    <Image
-                        height={'80px'}
-                        width={'80px'}
-                        src={petLogo}
-                        alt="pet care logo"
-                    />  
-                </a>
-            </Link>
-            {isLoggedIn && <h2>Hola {`${user.firstName}`}!</h2>}
+                <Link href="/">
+                    <a>
+                        <Image
+                            height={'80px'}
+                            width={'80px'}
+                            src={petLogo}
+                            alt="pet care logo"
+                        />  
+                    </a>
+                </Link>
+                {isLoggedIn && <h2>Hola {`${user.firstName}`}!</h2>}
             </div>
             <div className="nav">
             {isLoggedIn &&<Link href="/my-pets">
@@ -56,9 +57,9 @@ export default function Header({user = {}}){
             {!isLoggedIn && <Link href="/login/register">
                 <a style={buttonStyle}>Sign up</a>
             </Link>}
-            {isLoggedIn && <button onClick = {logout} style={buttonStyle}>
+            {isLoggedIn && <div onClick = {logout} style={buttonStyle}>
                 Sign out
-            </button>}
+            </div>}
             </div>
         </div>
     )

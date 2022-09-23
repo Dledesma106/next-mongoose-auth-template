@@ -1,13 +1,15 @@
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
+import Header from '../../../components/Header'
 import PetForm from '../../../components/PetForm'
+import getUser from '../../../lib/getUser'
 
 const fetcher = (url) =>
   fetch(url)
     .then((res) => res.json())
     .then((json) => json.data)
 
-const EditPet = () => {
+const EditPet = ( {user}) => {
   const router = useRouter()
   const { id } = router.query
   const { data: pet, error } = useSWR(id ? `/api/pets/${id}` : null, fetcher)
@@ -26,7 +28,17 @@ const EditPet = () => {
     dislikes: pet.dislikes,
   }
 
-  return <PetForm formId="edit-pet-form" petForm={petForm} forNewPet={false} />
+  return (
+    <>
+      <Header user={user} />
+      <PetForm formId="edit-pet-form" petForm={petForm} forNewPet={false} />
+    </>
+  )
+}
+
+export async function getServerSideProps({req}){
+  const user = await getUser(req)
+  return {props:{user}}
 }
 
 export default EditPet

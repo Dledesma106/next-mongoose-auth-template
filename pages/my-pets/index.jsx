@@ -23,7 +23,7 @@ const MyPets = ({pets, user}) => {
       </a>
     </Link>
     <div className="grid wrapper">
-      {pets.map((pet) => (<PetCard key={pet._id} pet={pet}/>))}
+      {pets.map((pet) => (<PetCard key={pet._id} pet={pet} isMyPets={true}/>))}
     </div>
   </>)
 }

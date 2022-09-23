@@ -15,7 +15,7 @@ const Index = ({ pets, user}) => {
     <Header user={user}/>
     <h2>Every Pet on this App!</h2>
     <div className="grid wrapper">
-      {pets.map((pet) => (<PetCard key={pet._id} pet={pet}/>))}
+      {pets.map((pet) => (<PetCard key={pet._id} pet={pet} user={user}/>))}
     </div>
   </>)
 }
@@ -32,6 +32,7 @@ export async function getServerSideProps({req,res}) {
     pet.owner = pet.owner.toString()
     return pet
   })
+  //retrieves current logged in user data from db
   const user = await getUser(req)
 
   return { props: { pets: pets,  user: user } }

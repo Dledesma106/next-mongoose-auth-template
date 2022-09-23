@@ -11,12 +11,12 @@ export default async function handler(req, res) {
       try {        
         const {username, password, firstName, lastName, email} = req.body
         const userData =  {username, password, firstName, lastName, email}
-        console.log(`intento crear el usuario con ${JSON.stringify(userData)}`)
+        
         userData.fullName = `${firstName} ${lastName}`
         const user = await User.create(
           userData
         )
-        console.log('pude crear el usuario')
+
         
          /* create a new model in the database */
         res.status(201).json({ success: true, data: user })

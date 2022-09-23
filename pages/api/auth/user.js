@@ -2,7 +2,7 @@ import User from '../../../models/User'
 import { verify } from 'jsonwebtoken'
 
 
-//endpoint for getting the user model from the database, the user has to be logged in to be able to get it
+//endpoint for getting the currently logged in user mode from db
 export default async function handler(req, res){
     const { cookies} = req
     //console.log(method)

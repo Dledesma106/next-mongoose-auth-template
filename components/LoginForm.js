@@ -13,7 +13,6 @@ const LoginForm = ({}) => {
   const [form, setForm] = useState({
     username:'',
     password:'',
-    confirmPassword:''
   })
 
   
