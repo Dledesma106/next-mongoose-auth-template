@@ -1,36 +1,37 @@
 import '../css/style.css'
 import '../css/form.css'
 import Head from 'next/head'
+import Header from '../components/Header'
+import { UserProvider } from '../context/userContext'
 
-/* import User from '../models/User'
-import dbConnect from '../lib/dbConnect'
- */
-function MyApp({ Component, pageProps }) {
-  
-  
-  
-  return (
+function MyApp({Component, pageProps}) {
+
+  return (  
     <>
       <Head>
         <title>Pet Care App</title>
       </Head>
-      <Component {...pageProps} />
+      <UserProvider>
+        <Header/>
+        <Component {...pageProps} />
+      </UserProvider>
     </>
   )
 }
 
-/* export async function getServerSideProps({req,res}) {
-
-  await dbConnect()
-  let user = ''
-  if (req.cookies.username){
-    console.log('intento buscar el user')
-    username = req.cookies.username
-    user = await User.findOne({username:username})
-    console.log(user.firstName)
+/* MyApp.getInitialProps = async(appContext)=>{
+  //appContext.ctx.req? console.log(appContext.ctx.req):console.log('noreq')
+  //console.log(Router)
+  const {req} = appContext.ctx
+  const appProps = await App.getInitialProps(appContext)
+  if(req){
+  //  const user = await isoGetUser(req)
+    const fullUrl = req.headers.referer
+    //const protocol = req.protocol
+    
+    return {...appProps, fullUrl}
   }
-
-  return { props: { user: user } }
+  return{...appProps}
 } */
 
 export default MyApp

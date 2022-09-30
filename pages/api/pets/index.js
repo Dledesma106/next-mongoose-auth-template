@@ -11,9 +11,8 @@ export default async function handler(req, res) {
   const userIsLoggedIn = () =>{
     const secret = process.env.SECRET
     if(cookies.username){
-      const username = cookies.username
       //console.log(username)
-      const jwt = cookies[`${username}_cookie`]
+      const jwt = cookies[`access_token`]
       //console.log(jwt)
       const result = verify(jwt, secret) //it's verified with the secret key
       //console.log(result)

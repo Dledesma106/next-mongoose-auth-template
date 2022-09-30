@@ -1,10 +1,9 @@
-import Header from '../../components/Header'
+
 import RegisterForm from '../../components/RegisterForm'
 
-const Register = ({user = {}}) =>{
+const Register = () =>{
     return(
         <>
-            <Header user={user}/>
             <RegisterForm/>
         </>
     )

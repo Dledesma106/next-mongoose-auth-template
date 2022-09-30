@@ -28,17 +28,11 @@ export default async function handler(req, res) {
     case 'POST':
       try {
         const {username, password} = req.body
-        //console.log('intento recuperar el usuario')
-        let user = await User.findOne({username:username})/* find user by username */
-        //console.log('recupere el usuario')
-        //console.log(user)
+        let user = await User.findOne({username})/* find user by username */
         if(!user.comparePassword(password)){
-          //console.log('esa no es la contraseña')
           res.status(403).json({success:false}) 
         } 
-        //console.log('esa es la contraseña')//
-
-        res.setHeader('Set-Cookie', cookie.serialize(`${username}_cookie`, getToken(user), cookieOptions))
+        res.setHeader('Set-Cookie', cookie.serialize(`access_token`, getToken(user), cookieOptions))
         res.status(201).json({ success: true, message: 'success' })
       } catch (error) {
         

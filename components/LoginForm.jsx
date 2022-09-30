@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { mutate } from 'swr'
-import * as cookies from 'cookies-next'
+import { useUser } from '../context/userContext'
 
 
 const LoginForm = ({}) => {
@@ -9,7 +8,7 @@ const LoginForm = ({}) => {
   const contentType = 'application/json'
   const [errors, setErrors] = useState({})
   const [message, setMessage] = useState('')
-
+  const {loginUser} = useUser()
   const [form, setForm] = useState({
     username:'',
     password:'',
@@ -33,7 +32,7 @@ const LoginForm = ({}) => {
       if (!res.ok) {
         throw new Error(res.status)
       }
-      cookies.setCookie('username', form.username)
+      loginUser()
       router.push('/')
     } 
     catch (error) {

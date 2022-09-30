@@ -1,10 +1,10 @@
 import Link from "next/link"
-//import isAuthorized from "../lib/isUsersPet"
-import isLoggedIn from "../lib/isLoggedIn"
+import { useUser } from "../context/userContext"
 
 
-export default function PetCard({pet, user, isMyPets = false}){
+export default function PetCard({pet, isMyPets = false}){
 
+    const {user, isLoggedIn} = useUser()
 
     return(
         <div key={pet._id}>
@@ -34,10 +34,10 @@ export default function PetCard({pet, user, isMyPets = false}){
                 </div>
 
                 <div className="btn-container">
-                {isLoggedIn(user) && isMyPets &&<Link href="/my-pets/[id]/edit" as={`/my-pets/${pet._id}/edit`}>
+                {isLoggedIn() && isMyPets &&<Link href="/my-pets/[id]/edit" as={`/my-pets/${pet._id}/edit`}>
                     <button className="btn edit">Edit</button>
                 </Link>}
-                <Link href="/my-pets/[id]" as={`/my-pets/${pet._id}`}>
+                <Link href="/pet/[id]" as={`/pet/${pet._id}`}>
                     <button className="btn view">View</button>
                 </Link>
                 </div>
