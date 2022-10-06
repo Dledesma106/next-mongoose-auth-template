@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 export const UserContext = createContext()
 
@@ -7,14 +7,14 @@ export const useUser = () => {
     return context
 }
 
-export const UserProvider = ({children}) =>{
-    
+export const UserProvider = ({children}) => {
+    const url = 'http://localhost:3000/api/full-url' //protocol + domain name + path
 
     const [user, setUser] = useState({})
 
     //function 
     async function getFullUrl(){  
-        let res = await fetch('/api/full-url')
+        let res = await fetch(url)
         res = await res.json()
         return await res.data
     }

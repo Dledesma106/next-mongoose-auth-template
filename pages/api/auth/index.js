@@ -7,7 +7,7 @@ const secret = process.env.SECRET
 export default async function handler(req, res) {
   const { method } = req
 
-  const getToken = (user) => {
+  const getToken = user => {
     return sign({
       exp: Math.floor(Date.now() / 1000) + 60 *60 * 24 * 30, //30 days
       username:user.username
@@ -27,13 +27,17 @@ export default async function handler(req, res) {
   switch (method) {
     case 'POST':
       try {
-        const {username, password} = req.body
+        const {username, password, appRequest} = req.body
         let user = await User.findOne({username})/* find user by username */
         if(!user.comparePassword(password)){
           res.status(403).json({success:false}) 
         } 
-        res.setHeader('Set-Cookie', cookie.serialize(`access_token`, getToken(user), cookieOptions))
-        res.status(201).json({ success: true, message: 'success' })
+        if(appRequest){
+          res.status(201).json({success:true, data:{access_token:getToken(user)}})
+        }else{
+          res.setHeader('Set-Cookie', cookie.serialize(`access_token`, getToken(user), cookieOptions))
+          res.status(201).json({ success: true, message: 'success' })
+        }
       } catch (error) {
         
         console.log(error)

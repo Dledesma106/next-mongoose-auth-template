@@ -17,8 +17,10 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
+        if(req.body.appRequest){//since we don't hold the jwt in a cookie, we don't need the backend to do anything special
+          res.status(201).json({ success: true, message: 'success' })
+        }
         res.setHeader('Set-Cookie', cookie.serialize(`access_token`, '', cookieOptions))
-        console.log('pude sacar la cookie')
         res.status(201).json({ success: true, message: 'success' })
       } catch (error) {
         

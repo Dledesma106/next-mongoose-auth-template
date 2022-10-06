@@ -13,12 +13,10 @@ export default async function handler(req, res) {
         const userData =  {username, password, firstName, lastName, email}
         
         userData.fullName = `${firstName} ${lastName}`
+        /* create a new model in the database */
         const user = await User.create(
           userData
-        )
-
-        
-         /* create a new model in the database */
+        )        
         res.status(201).json({ success: true, data: user })
       } catch (error) {
         console.log(error)
