@@ -1,23 +1,13 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { useRouter } from 'next/router'
 import { mutate } from 'swr'
+import {PetFormInterface} from './interfaces'
 
-
-interface PetForm{
-  name:string;
-  species:string;
-  age?:number;
-  poddy_trained?:boolean;
-  diet?:string;
-  image_url:string;
-  likes?:string[];
-  dislikes?:string[];
-}
 
 interface props {
   formId:string;
-  petForm:PetForm;
-  forNewPet:boolean;
+  petForm:PetFormInterface;
+  forNewPet?:boolean;
 }
 
 
@@ -39,7 +29,7 @@ const PetForm = ({ formId, petForm, forNewPet = true }:props) => {
   })
 
   /* The PUT method edits an existing entry in the mongodb database. */
-  const putData = async (form:PetForm) => {
+  const putData = async (form:PetFormInterface) => {
     const { id } = router.query
 
     try {
@@ -67,7 +57,7 @@ const PetForm = ({ formId, petForm, forNewPet = true }:props) => {
   }
 
   /* The POST method adds a new entry in the mongodb database. */
-  const postData = async (form:PetForm) => {
+  const postData = async (form:PetFormInterface) => {
     try {
       const res = await fetch('/api/pets', {
         method: 'POST',
@@ -114,7 +104,7 @@ const PetForm = ({ formId, petForm, forNewPet = true }:props) => {
 
   /* Makes sure pet info is filled for pet name, owner name, species, and image url*/
   const formValidate = () => {
-    let err:PetForm = {name:'', species:'', image_url:''}
+    let err:PetFormInterface = {name:'', species:'', image_url:''}
     if (!form.name) err.name = 'Name is required'
     if (!form.species) err.species = 'Species is required'
     if (!form.image_url) err.image_url = 'Image URL is required'
@@ -124,10 +114,10 @@ const PetForm = ({ formId, petForm, forNewPet = true }:props) => {
   const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const errs = formValidate()
-    if (Object.keys(errs).length === 0) {
-      forNewPet ? postData(form) : putData(form)
-    } else {
+    if (errs.name != '' || errs.species != '' || errs.image_url != '') {
       setErrors({ errs })
+    } else {
+      forNewPet ? postData(form) : putData(form)
     }
   }
 

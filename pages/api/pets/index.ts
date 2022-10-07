@@ -1,33 +1,18 @@
 import dbConnect from '../../../lib/dbConnect'
 import Pet from '../../../models/Pet'
 import User from '../../../models/User'
-import {verify} from 'jsonwebtoken'
+import { UserNameJwtPayload, verify} from 'jsonwebtoken'
+import { NextApiRequest, NextApiResponse } from 'next'
+import getUserServer from '../../../lib/getUserServerSide'
 
-export default async function handler(req, res) {
+
+
+
+export default async function handler(req:NextApiRequest, res:NextApiResponse) {
   const { method, cookies } = req
 
   await dbConnect()
 
-  const userIsLoggedIn = () =>{
-    const secret = process.env.SECRET
-    if(cookies.username){
-      //console.log(username)
-      const jwt = cookies[`access_token`]
-      //console.log(jwt)
-      const result = verify(jwt, secret) //it's verified with the secret key
-      //console.log(result)
-      if(result && result.username !== username){
-          return false
-      }else if (result && result.username === username){
-          return true
-      }
-      if(!result){
-          return false
-      }
-    }else{
-      return false
-    }
-  }
 
   switch (method) {
     case 'GET':
@@ -40,17 +25,16 @@ export default async function handler(req, res) {
       break
     case 'POST':
       try {
-        if(userIsLoggedIn()){
-          const user = await User.findOne({username:req.cookies.username}) 
-          //add user to pet
-          const pet = await Pet.create(
-            {...req.body, owner: user, owner_name: `${user.firstName} ${user.lastName}`}
-          )
-          user.pets.push(pet)
-          console.log(user)
-          user.save() /* create a new model in the database */
-          res.status(201).json({ success: true, data: pet })
-        }
+        const {username} = await getUserServer(req)
+        const user = await User.findOne({username}) 
+        //add user to pet
+        const pet = await Pet.create(
+          {...req.body, owner: user, owner_name: `${user.firstName} ${user.lastName}`}
+        )/* create a new model in the database */
+        user.pets.push(pet)
+        //console.log(user)
+        user.save() /* saving the pet on the user */
+        res.status(201).json({ success: true, data: pet })
       } catch (error) {
         res.status(400).json({ success: false, data:error })
       }

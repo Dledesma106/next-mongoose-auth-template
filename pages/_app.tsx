@@ -1,4 +1,6 @@
 import '../styles/globals.css'
+import '../css/style.css'
+import '../css/form.css'
 import type { AppProps } from 'next/app'
 
 import Head from 'next/head'

@@ -1,10 +1,12 @@
 import dbConnect from '../../../lib/dbConnect'
 import cookie from 'cookie'
+import { CookieSerializeOptions } from 'next/dist/server/web/types'
+import { NextApiRequest, NextApiResponse } from 'next'
 
-export default async function handler(req, res) {
+export default async function handler(req:NextApiRequest, res:NextApiResponse) {
   const { method } = req
 
-  const cookieOptions = {
+  const cookieOptions:CookieSerializeOptions = {
     httpOnly:true,
     secure: process.env.NODE_ENV !== 'development',
     sameSite: 'strict',

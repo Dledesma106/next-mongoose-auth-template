@@ -1,10 +1,11 @@
 import PetForm from '../../components/PetForm'
+import { PetFormInterface } from '../../components/interfaces'
+
 
 const NewPet = () => {
 
-  const petForm = {
+  const petForm: PetFormInterface = {
     name: '',
-    owner_name: '',
     species: '',
     age: 0,
     poddy_trained: false,

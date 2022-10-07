@@ -2,19 +2,25 @@ import dbConnect from '../../../lib/dbConnect'
 import User from '../../../models/User'
 import cookie from 'cookie'
 import {sign} from 'jsonwebtoken'
+import { NextApiRequest, NextApiResponse } from 'next'
+import { UserInterface } from '../../../models/interfaces'
+import { CookieSerializeOptions } from 'next/dist/server/web/types'
 
-const secret = process.env.SECRET
-export default async function handler(req, res) {
+const secret = process.env.SECRET || ''
+
+
+
+export default async function handler(req:NextApiRequest, res:NextApiResponse) {
   const { method } = req
 
-  const getToken = user => {
+  const getToken = (user:UserInterface) => {
     return sign({
       exp: Math.floor(Date.now() / 1000) + 60 *60 * 24 * 30, //30 days
       username:user.username
     }, secret)
   }
 
-  const cookieOptions = {
+  const cookieOptions:CookieSerializeOptions = {
     httpOnly:true,
     secure: process.env.NODE_ENV !== 'development',
     sameSite: 'strict',

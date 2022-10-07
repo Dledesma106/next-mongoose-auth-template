@@ -10,7 +10,7 @@ interface props{
 
 export default function PetCard({pet, isMyPet = false}:props){
 
-    const {user, isLoggedIn} = useUser()
+    const {isLoggedIn} = useUser()
 
     return(
         <>

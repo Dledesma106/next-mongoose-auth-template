@@ -5,8 +5,17 @@ import dbConnect from '../../lib/dbConnect'
 import Pet from '../../models/Pet'
 import isUsersPet from '../../lib/isUsersPet'
 import getUserServer from '../../lib/getUserServerSide'
+import { ReducedUser } from '../../context/userContext/interfaces'
+import {PetInterface} from '../../models/interfaces'
+import { GetServerSideProps, GetServerSidePropsContext, NextApiRequest } from 'next'
+
+interface props {
+  pet:PetInterface;
+  user:ReducedUser;
+}
+
 /* Allows you to view pet card info and delete pet card*/
-const PetPage = ({ pet, user }) => {
+const PetPage = ({ pet, user }:props) => {
   const router = useRouter()
   const [message, setMessage] = useState('')
   const handleDelete = async () => {
@@ -25,7 +34,7 @@ const PetPage = ({ pet, user }) => {
   return (
     <>
         <div style={{display:'flex', justifyContent:'space-evenly'}}>
-            <div key={pet._id} >
+            <div key={pet._id.toString()} >
                 <div className="card">
                 <img src={pet.image_url} />
                 <h5 className="pet-name">{pet.name}</h5>
@@ -68,13 +77,20 @@ const PetPage = ({ pet, user }) => {
   )
 }
 
-export async function getServerSideProps({ params, req }) {
+export async function getServerSideProps(context:GetServerSidePropsContext) {
+  let id:string | string[] | undefined= undefined
+  if(context.params){
+    id = context.params.id
+  }
+  
+  const {req} = context
+
   await dbConnect()
   
-  const pet = await Pet.findById(params.id).lean()
+  const pet = await Pet.findById(id).lean()
   pet._id = pet._id.toString()
   pet.owner = pet.owner.toString()
-  const user = await getUserServer(req)
+  const user = await getUserServer(req as NextApiRequest)
   return { props: { pet , user} }
 }
 

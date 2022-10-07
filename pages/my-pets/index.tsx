@@ -7,8 +7,14 @@ import PetCard from '../../components/PetCard'
 //import Header from '../../components/Header'
 import getUserServer from '../../lib/getUserServerSide'
 import * as GS from '../../globalStyles'
+import { PetInterface } from '../../models/interfaces'
+import { NextApiRequest, NextApiResponse } from 'next'
 
-const MyPets = ({pets}) => {
+interface props{
+  pets:PetInterface[]
+}
+
+const MyPets = ({pets}:props) => {
   //console.log(pets)
   return(
   <>
@@ -23,13 +29,13 @@ const MyPets = ({pets}) => {
       </div>
     </Link>
     <div className="grid wrapper">
-      {pets.map((pet) => (<PetCard key={pet._id} pet={pet} isMyPets={true}/>))}
+      {pets.map((pet) => (<PetCard key={pet._id.toString()} pet={pet} isMyPet={true}/>))}
     </div>
   </>)
 }
 
 //Retrieves pet(s) data from mongodb database 
-export async function getServerSideProps({req,res}) {
+export async function getServerSideProps({req,res}:{req:NextApiRequest;res:NextApiResponse}) {
     await dbConnect()
     //console.log(`req in gssp in /mypets: ${req.headers.referer}`)
     let user = await getUserServer(req)

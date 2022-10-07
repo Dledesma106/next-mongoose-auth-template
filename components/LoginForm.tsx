@@ -7,7 +7,7 @@ interface UserLoginForm {
   password:string;
 }
 
-const LoginForm = ({}) => {
+export default function LoginForm({}){
   const router = useRouter()
   const contentType = 'application/json'
   const [errors, setErrors] = useState({})
@@ -66,7 +66,7 @@ const LoginForm = ({}) => {
   const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const errs = formValidate()
-    if (Object.keys(errs).length === 0) {
+    if (errs.username == '' && errs.username == '') {
       postData(form)
     } else {
       setErrors({ errs })
@@ -108,5 +108,3 @@ const LoginForm = ({}) => {
     </>
   )
 }
-
-export default LoginForm

@@ -10,7 +10,7 @@ import * as GS from '../globalStyles'
 import {useUser} from '../hooks/useUser'
 
 
-export default function Header(){
+export default function Header(): JSX.Element{
     const router = useRouter()
     const {user, logoutUser, getBaseUrl, isLoggedIn} = useUser()
 

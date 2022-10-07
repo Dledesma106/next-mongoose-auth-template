@@ -1,7 +1,17 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import dbConnect from '../../../lib/dbConnect'
 import User from '../../../models/User'
 
-export default async function handler(req, res) {
+interface UserData{
+  username:string,
+  password:string,
+  firstName:string,
+  lastName:string,
+  email:string,
+  fullName?:string
+}
+
+export default async function handler(req:NextApiRequest, res:NextApiResponse) {
   const { method } = req
 
   await dbConnect()
@@ -10,7 +20,7 @@ export default async function handler(req, res) {
     case 'POST':
       try {        
         const {username, password, firstName, lastName, email} = req.body
-        const userData =  {username, password, firstName, lastName, email}
+        const userData:UserData =  {username, password, firstName, lastName, email}
         
         userData.fullName = `${firstName} ${lastName}`
         /* create a new model in the database */

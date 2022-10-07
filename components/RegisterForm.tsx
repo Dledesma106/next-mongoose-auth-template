@@ -80,10 +80,14 @@ const RegisterForm = ({}) => {
     return err
   }
 
+  const isValidForm = (errors:UserRegisterForm) =>{
+    return errors.confirmPassword == '' && errors.email == '' && errors.firstName == '' && errors.lastName == '' && errors.username == '' && errors.password == ''
+  }
+
   const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const errs = formValidate()
-    if (Object.keys(errs).length === 0) {
+    if (isValidForm(errs)) {
       postData(form)
     } else {
       setErrors({ errs })

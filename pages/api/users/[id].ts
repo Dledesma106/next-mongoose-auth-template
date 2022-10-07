@@ -1,8 +1,9 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import dbConnect from '../../../lib/dbConnect'
 
 import User from '../../../models/User'
 
-export default async function handler(req, res) {
+export default async function handler(req:NextApiRequest, res:NextApiResponse) {
   const {
     query: { id },
     method,

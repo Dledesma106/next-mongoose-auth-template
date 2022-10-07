@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server'
 import {jwtVerify} from 'jose'
 
+
 /**
  * Function that executes first whenever a request comes to the server.
  * Here you can validate JWT or other data when coming trough any specific route.
@@ -38,14 +39,14 @@ export async function middleware(req:NextRequest){
                 } catch (error) {
                     console.error(error)
                     if(pathname.includes('/api') /* || req.body.appRequest */){//(2)
-                        return NextResponse.status(403).json({success:false, message:'wrong token', data: error})
+                        return NextResponse.json({success:false, message:'wrong token', data: error})
                     }
                     return NextResponse.redirect( new URL('/login', req.url))
                 }
             }
             else{
                 if(pathname.includes('/api') /* || req.body.appRequest */){//(2)
-                    return NextResponse.status(403).json({success:false, message:'no token', data: error})
+                    return NextResponse.json({success:false, message:'no token'})
                 }
                 //console.log('nohay jwt')
                 return NextResponse.redirect( new URL('/login', req.url))

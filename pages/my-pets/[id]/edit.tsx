@@ -3,7 +3,7 @@ import useSWR from 'swr'
 import PetForm from '../../../components/PetForm'
 
 
-const fetcher = (url) =>
+const fetcher = (url:string) =>
   fetch(url)
     .then((res) => res.json())
     .then((json) => json.data)

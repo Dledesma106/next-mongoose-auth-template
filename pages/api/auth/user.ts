@@ -1,23 +1,29 @@
 import User from '../../../models/User'
-import { verify } from 'jsonwebtoken'
+import { UserNameJwtPayload, verify } from 'jsonwebtoken'
 import {UserInterface} from '../../../models/interfaces'
 import {NextApiResponse, NextApiRequest}from 'next'
 
 
+/* declare module 'jsonwebtoken'{
+    export interface UserNameJwtPayload extends JwtPayload{
+        username:string
+    }
+}
+ */
 //endpoint for getting the currently logged in user from db
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
     const { cookies, body} = req
     const {appRequest} = body
     //console.log(method)
     try{
-        const secret = process.env.SECRET
+        const secret = process.env.SECRET || ''
         //console.log(secret)
         //console.log(cookies)
-        const jwt = appRequest? body.access_token :cookies.access_token
+        const jwt = /* appRequest? body.access_token : */cookies.access_token
         
         if(jwt){
             //console.log(jwt)
-            const result = verify(jwt, secret)//it's verified with the secret key
+            const result = <UserNameJwtPayload>verify(jwt, secret)//it's verified with the secret key
             //console.log(result)
             if (result){
                 if(result.username){
