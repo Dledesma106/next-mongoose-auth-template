@@ -4,7 +4,7 @@ import '../css/form.css'
 import type { AppProps } from 'next/app'
 
 import Head from 'next/head'
-import Header from '../components/Header'
+import Header from '../components/Header/Header'
 import  UserProvider from '../context/userContext/UserProvider'
 
 function MyApp({ Component, pageProps }: AppProps) {

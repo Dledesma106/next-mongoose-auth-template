@@ -1,13 +1,13 @@
 import Link from 'next/link'
 
-import { useState, useEffect } from 'react'
-import petLogo from '../public/Pet_logo_with_flowers.png'
+import {topBar, nav} from './styles'
+import petLogo from '../../public/Pet_logo_with_flowers.png'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import * as GS from '../globalStyles'
+import * as GS from '../../globalStyles'
 
 
-import {useUser} from '../hooks/useUser'
+import {useUser} from '../../hooks/useUser'
 
 
 export default function Header(): JSX.Element{
@@ -29,7 +29,7 @@ export default function Header(): JSX.Element{
 
 
     return(
-        <div className="top-bar">
+        <div style={topBar}>
             <div style={{display:'flex'}}>
                 <Link href="/">
                     <a>
@@ -43,7 +43,7 @@ export default function Header(): JSX.Element{
                 </Link>
                 {isLoggedIn() && <h2>Hello {`${user.firstName}`}!</h2>}
             </div>
-            <div className="nav">
+            <div style={nav}>
             {isLoggedIn() &&<Link href="/my-pets">
                 <a style={GS.buttonStyle}>My Pets</a>
             </Link>}
@@ -62,3 +62,4 @@ export default function Header(): JSX.Element{
         </div>
     )
 }
+
