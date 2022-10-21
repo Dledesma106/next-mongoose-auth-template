@@ -8,7 +8,11 @@ import { CookieSerializeOptions } from 'next/dist/server/web/types'
 
 const secret = process.env.SECRET || ''
 
-
+interface RequestBody{
+  username:string,
+  password:string, 
+  appRequest?:boolean
+}
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse) {
   const { method } = req
@@ -20,27 +24,50 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
     }, secret)
   }
 
-  const cookieOptions:CookieSerializeOptions = {
-    httpOnly:true,
-    secure: process.env.NODE_ENV !== 'development',
-    sameSite: 'strict',
-    maxAge: 60*60*24*30, //30 days
-    path:'/'
-  }
+  
 
   await dbConnect()
 
   switch (method) {
     case 'POST':
       try {
-        const {username, password, appRequest} = req.body
-        let user = await User.findOne({username})/* find user by username */
-        if(!user.comparePassword(password)){
-          res.status(403).json({success:false}) 
-        } 
-        if(appRequest){
-          res.status(201).json({success:true, data:{access_token:getToken(user)}})
+        /* let appRequest = false
+        let parsedBody
+        try {
+          parsedBody = JSON.parse(req.body)
+          appRequest = parsedBody.appRequest
+        } catch (error) {
+          console.log(error)
+        }
+        console.log(appRequest); */
+        
+        if(req.body.appRequest){
+          const {username, password} = req.body
+          
+          let user = await User.findOne({username})/* find user by username */
+          console.log(user)
+          if(!user.comparePassword(password)){
+            console.log('wrongpassword');
+            
+            res.status(403).json({success:false}) 
+          } 
+          console.log('returnedinfo');
+          
+          res.status(201).json({success:true, data:{access_token:getToken(user), user}})
         }else{
+          const {username, password} = req.body
+          let user = await User.findOne({username})/* find user by username */
+          console.log(user)
+          if(!user.comparePassword(password)){
+            res.status(403).json({success:false}) 
+          }
+          const cookieOptions:CookieSerializeOptions = {
+            httpOnly:true,
+            secure: process.env.NODE_ENV !== 'development',
+            sameSite: 'strict',
+            maxAge: 60*60*24*30, //30 days
+            path:'/'
+          }
           res.setHeader('Set-Cookie', cookie.serialize(`access_token`, getToken(user), cookieOptions))
           res.status(201).json({ success: true, message: 'success' })
         }
