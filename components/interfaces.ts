@@ -4,7 +4,7 @@ export interface PetFormInterface{
   age?:number;
   poddy_trained?:boolean;
   diet?:string[];
-  image_url:string;
+  imageId:string;
   likes?:string[];
   dislikes?:string[];
 }

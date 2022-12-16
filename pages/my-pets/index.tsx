@@ -2,13 +2,14 @@
 
 import dbConnect from '../../lib/dbConnect'
 import Link from 'next/link'
-import Pet from '../../models/Pet'
+
 import PetCard from '../../components/PetCard'
 //import Header from '../../components/Header'
-import getUserServer from '../../lib/getUserServerSide'
+
 import * as GS from '../../globalStyles'
 import { PetInterface } from '../../models/interfaces'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { getUserPets } from '../../lib/dbGetPets'
 
 interface props{
   pets:PetInterface[]
@@ -29,28 +30,14 @@ const MyPets = ({pets}:props) => {
       </div>
     </Link>
     <div className="grid wrapper">
-      {pets.map((pet) => (<PetCard key={pet._id.toString()} pet={pet} isMyPet={true}/>))}
+      {pets.map((pet) => (<PetCard key={pet._id.toString()} pet={pet} isMyPet={true} imageUrl={pet.imageUrl}/>))}
     </div>
   </>)
 }
 
 //Retrieves pet(s) data from mongodb database 
 export async function getServerSideProps({req,res}:{req:NextApiRequest;res:NextApiResponse}) {
-    await dbConnect()
-    //console.log(`req in gssp in /mypets: ${req.headers.referer}`)
-    let user = await getUserServer(req)
-    //console.log(`user in gssp from /my-pets: ${JSON.stringify(user)}`)
-    let pets = []
-    if (Object.keys(user).length>0){
-        //it's easier to query the pet collection with the owner id than querying it for every pet the owner has
-        const userPets = await Pet.find({ owner: user._id}) 
-        pets = userPets.map((doc) => {
-          const pet = doc.toObject()
-          pet._id = pet._id.toString()
-          pet.owner = pet.owner.toString()
-          return pet
-        })
-    }
+    const pets = await getUserPets(req)
     return { props: { pets} }
 }
 

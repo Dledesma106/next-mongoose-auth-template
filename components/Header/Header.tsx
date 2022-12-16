@@ -8,11 +8,12 @@ import * as GS from '../../globalStyles'
 
 
 import {useUser} from '../../hooks/useUser'
+import { useEffect } from 'react'
 
 
 export default function Header(): JSX.Element{
     const router = useRouter()
-    const {user, logoutUser, getBaseUrl, isLoggedIn} = useUser()
+    const {user, loginUser, logoutUser, getBaseUrl, isLoggedIn} = useUser()
 
     const logout = async() => {
         
@@ -25,6 +26,10 @@ export default function Header(): JSX.Element{
         logoutUser()
         router.push('/')
     }
+
+    useEffect(()=>{
+        loginUser()
+    },[])
 
 
 

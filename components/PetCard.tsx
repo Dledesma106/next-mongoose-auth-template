@@ -1,21 +1,22 @@
 import Link from "next/link"
-import { Key } from "react";
+
 import { useUser } from "../hooks/useUser"
 import {PetInterface} from '../models/interfaces'
 
 interface props{
     pet: PetInterface;
     isMyPet?:boolean;
+    imageUrl: string | undefined;
 }
 
-export default function PetCard({pet, isMyPet = false}:props){
+export default function PetCard({pet, isMyPet = false, imageUrl}:props){
 
     const {isLoggedIn} = useUser()
 
     return(
         <>
             <div className="card">
-                <img src={pet.image_url} />
+                <img src={imageUrl} />
                 <h5 className="pet-name">{pet.name}</h5>
                 <div className="main-content">
                     <p className="pet-name">{pet.name}</p>

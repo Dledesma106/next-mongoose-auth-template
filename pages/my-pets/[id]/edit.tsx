@@ -22,7 +22,7 @@ const EditPet = () => {
     age: pet.age,
     poddy_trained: pet.poddy_trained,
     diet: pet.diet,
-    image_url: pet.image_url,
+    imageId: pet.image.toString(),
     likes: pet.likes,
     dislikes: pet.dislikes,
   }

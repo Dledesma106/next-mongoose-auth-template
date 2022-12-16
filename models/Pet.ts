@@ -44,11 +44,10 @@ const PetSchema = new mongoose.Schema({
 
     type: Array,
   },
-  image_url: {
-    /* Url to pet image */
-
-    required: [true, 'Please provide an image url for this pet.'],
-    type: String,
+  image: {
+    /* Image model */
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'Image', required: true
   },
   likes: {
     /* List of things your pet likes to do */

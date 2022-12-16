@@ -2,6 +2,11 @@
 
 import {Types} from "mongoose";
 
+export interface ImageInterface{
+  _id:Types.ObjectId,
+  name:string,
+  url:string
+}
 
 export interface PetInterface{
   _id: Types.ObjectId;
@@ -12,9 +17,10 @@ export interface PetInterface{
   age: number;
   poddy_trained: boolean;
   diet: string[];
-  image_url: string;
+  image: ImageInterface;
   likes: string[];
   dislikes: string[];
+  imageUrl?:string;
 }
   
 
@@ -28,3 +34,8 @@ export interface UserInterface {
   fullName?: string;
   pets?: PetInterface[];
 }
+
+export type SuccessfulResponse<T> = { data: T; error?: never; statusCode?: number };
+export type UnsuccessfulResponse<E> = { data?: never; error: E; statusCode?: number };
+
+export type ApiResponse<T, E = unknown> = SuccessfulResponse<T> | UnsuccessfulResponse<E>;

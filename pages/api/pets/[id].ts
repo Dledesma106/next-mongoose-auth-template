@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import dbConnect from '../../../lib/dbConnect'
 import Pet from '../../../models/Pet'
+import Image from '../../../models/Image'
+import { deleteImage } from '../../../lib/googleStorage'
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse) {
   const {
@@ -25,7 +27,16 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 
     case 'PUT' /* Edit a model by its ID */:
       try {
-        const pet = await Pet.findByIdAndUpdate(id, req.body, {
+        const {name, species, age, poddy_trained, diet, imageId, likes, dislikes} = req.body
+        const oldPet = await Pet.findById(id)
+        if(oldPet.image.toString() !== imageId){//if the image is not the same, we delete it from storage and db
+          const oldImage = await Image.findById(oldPet.image)
+          await deleteImage(oldImage.name)
+          await Image.findByIdAndDelete(oldPet.image)
+        }
+        const image = await Image.findById(imageId)
+        const updatedPet = {name, species, age, poddy_trained, diet, likes, dislikes, image}
+        const pet = await Pet.findByIdAndUpdate(id, updatedPet, {
           new: true,
           runValidators: true,
         })
